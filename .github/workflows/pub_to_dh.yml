@@ -13,7 +13,8 @@ jobs:
   build_application:
     name: Build and Test Application
     runs-on: self-hosted
-    context: ./TestApp
+    run:
+      working-directory: TestApp
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
