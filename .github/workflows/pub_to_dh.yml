@@ -13,8 +13,9 @@ jobs:
   build_application:
     name: Build and Test Application
     runs-on: self-hosted
-    run:
-      working-directory: TestApp
+    defaults:
+      run:
+        working-directory: TestApp
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
