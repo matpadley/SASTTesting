@@ -24,8 +24,7 @@ jobs:
         run: dotnet build --no-restore
   test_application:
     name: Test Application
-      steps:
-      name: Test Application
-      runs-on: self-hosted
+    runs-on: self-hosted
+    steps:
       - name: Test
         run: dotnet test --no-build --verbosity normal
