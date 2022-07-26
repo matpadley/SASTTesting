@@ -9,6 +9,12 @@ defaults:
   run:
     working-directory: TestApp
 
+env:
+  # Setting the required env flags
+  config: Release
+  dotnet_core_version: 6.0.x
+  app_name: TestApp
+
 jobs:
   build_application:
     name: Build Application
@@ -18,11 +24,11 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: ${{env.dotnet_core_version}}
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --configuration ${{env.config}}
 
   test_application:
     name: Test Application
@@ -31,3 +37,13 @@ jobs:
     steps:
       - name: Test
         run: dotnet test --no-build --verbosity normal
+
+  package_application:
+    name: Package Application
+    runs-on: self-hosted
+    needs: [test_application]
+    steps:
+      - name: Package
+        run: dotnet pack --configuration ${{env.config}}
+      - name: Publish
+        run: dotnet nuget push "bin/${{env.config}}/${{env.app_name}}.1.0.0.nupkg" --api-key $${{secrets.PACKAGEPAT}} --source "github"
