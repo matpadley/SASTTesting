@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_application:
-    name: Build and Test Application
+    name: Test Application
     runs-on: self-hosted
     defaults:
       run:
@@ -23,6 +23,7 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
   test_application:
+    name: Test Application
     steps:
       name: Test Application
       runs-on: self-hosted
