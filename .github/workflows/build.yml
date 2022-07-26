@@ -24,7 +24,7 @@ jobs:
         run: dotnet build --no-restore
   test_application:
     name: Test Application
-    steps:
+      steps:
       name: Test Application
       runs-on: self-hosted
       - name: Test
