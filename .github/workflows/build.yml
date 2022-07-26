@@ -1,5 +1,10 @@
 name: Full Build
 
+
+on:
+  push:
+    branches: [ "main", "feature/*" ]
+
 jobs:
 
   build_application:
