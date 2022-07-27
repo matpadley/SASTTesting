@@ -20,6 +20,9 @@ jobs:
     name: Build Application
     runs-on: self-hosted
     steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - uses: actions/checkout@v3
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
@@ -29,6 +32,16 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore --configuration ${{env.config}}
+
+  test_action:
+    name: joke
+    runs-on: self-hosted
+    needs: [build_application]
+    steps:
+      - name: installpackages
+        run: npm --prefix ../.github/actions/joke-action install
+      - name: ha-ha
+        uses: ./.github/actions/joke-action
 
   test_application:
     name: Test Application
