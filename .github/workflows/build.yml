@@ -45,9 +45,8 @@ jobs:
     name: Package Application
     runs-on: self-hosted
     needs: [test_application]
-    steps:     
-      - name: list package sources
-        run: dotnet nuget list source
+    steps:
+      - name: Get latest version
       - name: Package
         run: dotnet pack --configuration ${{env.config}}
       - name: Push Package
