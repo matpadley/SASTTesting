@@ -1,13 +1,12 @@
 name: Full Build
 
-
 on:
   push:
     branches: [ "main", "feature/*" ]
 
 defaults:
   run:
-    working-directory: TestApp
+    working-directory: src
 
 env:
   # Setting the required env flags
@@ -16,6 +15,8 @@ env:
   app_name: TestApp
   repository: matpadley
   username: matpadley
+  nuget_source: https://nuget.pkg.github.com/matpadley/index.json
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   build_application:
@@ -44,14 +45,10 @@ jobs:
     name: Package Application
     runs-on: self-hosted
     needs: [test_application]
-    steps:
+    steps:     
+      - name: list package sources
+        run: dotnet nuget list source
       - name: Package
         run: dotnet pack --configuration ${{env.config}}
-      #- name: Add Nuget Source
-      #  run: dotnet nuget add source --username ${{env.username}} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{env.repository}}/index.json"
-      - name: Push Package 
-<<<<<<< HEAD
-        run: dotnet nuget push "${{env.app_name}}/bin/${{env.config}}/${{env.app_name}}.1.0.0.nupkg" --api-key ${{secrets.PACKAGEPAT}} --source 'github'
-=======
-        run: dotnet nuget push "${{env.app_name}}/${{env.app_name}}/bin/${{env.config}}/${{env.app_name}}.1.0.0.nupkg" --api-key ${{secrets.PACKAGEPAT}} --source 'github'
->>>>>>> main
+      - name: Push Package
+        run: dotnet nuget push ${{env.app_name}}/bin/${{env.config}}/${{env.app_name}}.1.0.0.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }}
