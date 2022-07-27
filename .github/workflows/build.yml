@@ -51,4 +51,4 @@ jobs:
       - name: Package
         run: dotnet pack --configuration ${{env.config}}
       - name: Push Package
-        run: dotnet nuget push ${{env.app_name}}/bin/${{env.config}}/${{env.app_name}}.1.0.0.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget push ${{env.app_name}}/bin/${{env.config}}/${{env.app_name}}.1.0.0.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
