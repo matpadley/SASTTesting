@@ -13,6 +13,7 @@ env:
   config: Release
   dotnet_core_version: 6.0.x
   app_name: testapp
+  packge_source: github
 
 jobs:
   build_application:
@@ -43,6 +44,6 @@ jobs:
     needs: [test_application]
     steps:
       - name: Package
-        run: dotnet pack --configuration ${{env.config}} -alpha
+        run: dotnet pack --configuration ${{env.config}}
       - name: Push Package
-        run: dotnet nuget push ${{env.app_name}}/bin/${{env.config}}/${{env.app_name}}.1.0.0.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+        run: dotnet nuget push ${{env.app_name}}/bin/${{env.config}}/${{env.app_name}}.1.0.0.nupkg --source ${{packge_source}} --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
