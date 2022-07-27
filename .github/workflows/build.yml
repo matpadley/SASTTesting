@@ -47,6 +47,7 @@ jobs:
     needs: [test_application]
     steps:
       - name: Get latest version
+        run: npm show TestApp version
       - name: Package
         run: dotnet pack --configuration ${{env.config}}
       - name: Push Package
