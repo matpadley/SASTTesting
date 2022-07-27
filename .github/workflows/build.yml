@@ -12,11 +12,7 @@ env:
   # Setting the required env flags
   config: Release
   dotnet_core_version: 6.0.x
-  app_name: TestApp
-  repository: matpadley
-  username: matpadley
-  nuget_source: https://nuget.pkg.github.com/matpadley/index.json
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  app_name: testapp
 
 jobs:
   build_application:
@@ -47,7 +43,7 @@ jobs:
     needs: [test_application]
     steps:
       - name: Get latest version
-        run: npm show testapp version
+        run: npm show ${{env.app_name}} version
       - name: Package
         run: dotnet pack --configuration ${{env.config}}
       - name: Push Package
