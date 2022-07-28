@@ -30,6 +30,7 @@ jobs:
     name: Build Application
     needs: [setup-environment]
     runs-on: self-hosted
+    steps:
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
