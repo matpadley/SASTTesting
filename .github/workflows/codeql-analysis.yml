@@ -17,8 +17,9 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
-  schedule:
-    - cron: '17 23 * * 4'
+  #schedule:
+  #  - cron: '17 23 * * 4'
+  
 
 jobs:
   analyze:
@@ -37,7 +38,7 @@ jobs:
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
     steps:
-    - name: Checkout repository
+    - name: Checkout repository test
       uses: actions/checkout@v3
 
     # Initializes the CodeQL tools for scanning.
