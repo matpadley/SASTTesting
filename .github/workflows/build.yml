@@ -16,33 +16,24 @@ env:
   package_source: github
 
 jobs:
-  build_application:
-    name: Build Application
+  setup-environment:
+    name: Setup
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
-        #with:
-        #  repository: matpadley/test-action
-        #  ref: v1.0
-        #  path: ./.github/actions/test-action
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{env.dotnet_core_version}}
+
+  build_application:
+    name: Build Application
+    needs: [setup-environment]
+    runs-on: self-hosted
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore --configuration ${{env.config}}
-
-  test_action:
-    name: joke
-    runs-on: self-hosted
-    needs: [build_application]
-    steps:
-      - name: installpackages
-        run: npm --prefix ../.github/actions/joke-action install
-      - name: ha-ha
-        uses: ./.github/actions/joke-action
 
   test_application:
     name: Test Application
