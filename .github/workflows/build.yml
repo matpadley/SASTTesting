@@ -21,10 +21,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
-        with:
-          repository: matpadley/test-action
-          ref: v1.0
-          path: ./.github/actions/test-action
+        #with:
+        #  repository: matpadley/test-action
+        #  ref: v1.0
+        #  path: ./.github/actions/test-action
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
