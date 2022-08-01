@@ -1,8 +1,8 @@
 name: Build & Test
 
-on:
-  push:
-    branches: [ "release", "develop", "feature/*", bugfix/* ]
+#on:
+#  push:
+#    branches: [ "release", "develop", "feature/*", bugfix/* ]
 
 defaults:
   run:
