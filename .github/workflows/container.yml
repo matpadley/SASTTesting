@@ -15,6 +15,7 @@ env:
   app_name: testapp
   package_source: github
 
+jobs:
   push_to_docker:
     name: Push To Docker Application
     runs-on: self-hosted
