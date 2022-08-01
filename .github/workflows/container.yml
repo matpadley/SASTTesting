@@ -1,4 +1,4 @@
-name: Containter
+name: Containterise Application
 
 on:
   push:
