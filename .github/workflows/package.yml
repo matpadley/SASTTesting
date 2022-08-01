@@ -1,8 +1,8 @@
-name: Build & Test
+name: Package Application
 
 on:
   push:
-    branches: [ "release", "develop", "feature/*", bugfix/* ]
+    branches: [ "develop" ]
 
 defaults:
   run:
@@ -36,10 +36,12 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration ${{env.config}}
 
-  test_application:
-    name: Test Application
+  package_application:
+    name: Package Application
     runs-on: self-hosted
-    needs: [build_application]
+    needs: [test_application]
     steps:
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+      - name: Package
+        run: dotnet pack --configuration ${{env.config}}
+      - name: Push Package
+        run: dotnet nuget push ${{env.app_name}}/bin/${{env.config}}/${{env.app_name}}.1.0.0.nupkg --source ${{env.package_source}} --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
