@@ -2,23 +2,23 @@ name: Build and Test Application
 
 on:
   push:
-    branches: [ "release", "develop", "feature/*", bugfix/* ]
+    branches: 
+      [ "feature/*", bugfix/* ]
+  pull_request:
+    branches:
+      [ "develop", "release" ]
 
 defaults:
   run:
     working-directory: src
 
-env:
-  config: release
-  dotnet_core_version: 6.0.x
-
 jobs:
   build_application:
     name: Build Application
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/workflow/build.yml
     with:
       dotnet_core_version: 6.0.x
-      config: ${{ env.config }}
+      config: release
   
   test_application:
     name: Test Application
