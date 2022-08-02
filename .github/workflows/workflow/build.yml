@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      dotnet_core_version: 
+        type: string
+        required: true
+      config:
+        type: string
+        required: true
+
+defaults:
+  run:
+    working-directory: src
+
+jobs:
+  setup-environment:
+    name: Setup
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{inputs.dotnet_core_version}}
+
+  build_application:
+    name: Build Application
+    needs: [setup-environment]
+    runs-on: self-hosted
+    steps:
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore --configuration ${{inputs.config}}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: src/
