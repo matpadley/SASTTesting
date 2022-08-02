@@ -19,7 +19,6 @@ jobs:
   push_to_docker:
     name: Push To Docker Application
     runs-on: self-hosted
-    needs: [test_application]
     steps:
       - name: Log in to Docker Hub
         uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
@@ -45,5 +44,6 @@ jobs:
         with:
           context: ./src
           push: true
+          platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
