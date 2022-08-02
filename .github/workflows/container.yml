@@ -1,5 +1,10 @@
 name: Containterise Application
 
+              #type=ref,event=branch
+              #type=sha
+              #type=sha,prefix={{branch}}-
+              #type=sha,format=long
+              #type=sha,format=long,prefix={{branch}}-
 on:
   push:
     branches: [ "develop" ]
@@ -31,12 +36,7 @@ jobs:
         uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a
         with:
           images: matp79/SastTest
-          tags: |
-              type=ref,event=branch
-              type=sha
-              type=sha,prefix={{branch}}-
-              type=sha,format=long
-              type=sha,format=long,prefix={{branch}}-
+          tags: 
               type=raw,value=latest
       
       - name: Build and push Docker image
