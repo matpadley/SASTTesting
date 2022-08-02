@@ -1,19 +1,18 @@
-name: Build & Test
+name: Build
 
 on:
-  push:
-    branches: [ "release", "develop", "feature/*", bugfix/* ]
+  workflow_call:
+    inputs:
+      dotnet_core_version: 
+        type: string
+        required: true
+      config:
+        type: string
+        required: true
 
 defaults:
   run:
     working-directory: src
-
-env:
-  # Setting the required env flags
-  config: Release
-  dotnet_core_version: 6.0.x
-  app_name: testapp
-  package_source: github
 
 jobs:
   setup-environment:
@@ -24,7 +23,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: ${{env.dotnet_core_version}}
+          dotnet-version: ${{inputs.dotnet_core_version}}
 
   build_application:
     name: Build Application
@@ -34,12 +33,8 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --no-restore --configuration ${{env.config}}
-
-  test_application:
-    name: Test Application
-    runs-on: self-hosted
-    needs: [build_application]
-    steps:
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet build --no-restore --configuration ${{inputs.config}}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: src/
