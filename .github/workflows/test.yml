@@ -1,0 +1,33 @@
+name: testing
+
+on:
+  push:
+    branches: [ "release", "develop", "feature/*", bugfix/* ]
+
+defaults:
+  run:
+    working-directory: src
+
+env:
+  config: release
+  dotnet_core_version: 6.0.x
+
+jobs:
+  build_application:
+    name: Build Application
+    uses: ./.github/workflows/build.yml
+    with:
+      dotnet_core_version: 6.0.x
+      config: release
+  
+  test_application:
+    name: Test Application
+    runs-on: self-hosted
+    needs: [build_application]
+    steps:
+      - name: Download Artifacts From Build
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+      - name: Test
+        run: dotnet test *.Tests --no-build --verbosity normal --configuration release
