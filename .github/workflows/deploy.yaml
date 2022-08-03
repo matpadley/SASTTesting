@@ -1,0 +1,25 @@
+on:
+  workflow_dispatch:
+  inputs:
+      release_tag:
+        description: 'Relase Tag'
+        required: false
+        default: 'release' 
+      environment:
+        description: 'Environment To Deploy To'
+        required: false
+        default: 'prod'
+
+jobs:
+  print-release_tag:
+    runs-on: self-hosted
+    if:  ${{ inputs.release_tag }} 
+    steps:
+      - name: Print the release_tag tag to STDOUT
+        run: echo  The tags are ${{ inputs.release_tag }} 
+  print-environment:
+    runs-on: self-hosted
+    if:  ${{ inputs.environment }} 
+    steps:
+      - name: Print the environment tag to STDOUT
+        run: echo  The tags are ${{ inputs.environment }} 
