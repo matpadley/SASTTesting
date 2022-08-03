@@ -1,6 +1,6 @@
 on:
   workflow_dispatch:
-  inputs:
+    inputs:
       release_tag:
         description: 'Relase Tag'
         required: false
