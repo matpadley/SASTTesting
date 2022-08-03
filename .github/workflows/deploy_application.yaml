@@ -2,16 +2,15 @@ name: Manual Deploy Application
 
 on:
   workflow_dispatch:
-
-inputs:
-  release_tag:
-    description: 'Relase Tag'
-    required: false
-    default: 'release' 
-  environment:
-    description: 'Environment To Deploy To'
-    required: false
-    default: 'prod'
+    inputs:
+      release_tag:
+        description: 'Relase Tag'
+        required: false
+        default: 'release' 
+      environment:
+        description: 'Environment To Deploy To'
+        required: false
+        default: 'prod'
 
 jobs:
   print-release_tag:
