@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
+name: Manual Deploy Application
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -21,9 +21,8 @@ on:
         required: false
         default: 'release' 
       environment:
-        description: 'Environment To Deploy To'
-        required: false
-        default: 'prod'
+        type: environment
+        description: Select the environment
 
 jobs:
   print-release_tag:
