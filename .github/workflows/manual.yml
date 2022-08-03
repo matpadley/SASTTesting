@@ -1,30 +1,31 @@
-# This is a basic workflow that is manually triggered
+name: Manual Deploy Application
 
-name: Manual workflow
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
+  #push:
+  #  branches: [ "feature/*" ]
   workflow_dispatch:
-    # Inputs the workflow accepts.
     inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
-        required: true
+      release_tag:
+        description: 'Relase Tag'
+        required: false
+        default: 'release' 
+      environment:
+        description: 'Environment To Deploy To'
+        required: false
+        default: 'prod'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
-    # The type of runner that the job will run on
+  print-release_tag:
+    name: Print Release Tag
     runs-on: self-hosted
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    if:  ${{ inputs.release_tag }} 
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+      - name: Print the release_tag tag to STDOUT
+        run: echo  The tags are ${{ inputs.release_tag }} 
+  print-environment:
+    name: Print Environment Tag
+    runs-on: self-hosted
+    if:  ${{ inputs.environment }} 
+    steps:
+      - name: Print the environment tag to STDOUT
+        run: echo  The tags are ${{ inputs.environment }} 
