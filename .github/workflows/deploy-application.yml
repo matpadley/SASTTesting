@@ -1,0 +1,39 @@
+# This is a basic workflow that is manually triggered
+
+name: Manual Deploy Application
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+   # inputs:
+   #   name:
+        # Friendly description to be shown in the UI instead of 'name'
+   #     description: 'Person to greet'
+        # Default value if no value is explicitly provided
+   #     default: 'World'
+        # Input has to be provided for the workflow to run
+   #     required: true
+    inputs:
+      release_tag:
+        description: 'Relase Tag'
+        required: false
+        default: 'release' 
+      environment:
+        type: environment
+        description: Select the environment
+
+jobs:
+  print-release_tag:
+    name: Print Release Tag
+    runs-on: self-hosted
+    steps:
+      - name: Print the release_tag tag to STDOUT
+        run: echo  The tags are ${{ inputs.release_tag }} 
+  print-environment:
+    name: Print Environment Tag
+    runs-on: self-hosted
+    steps:
+      - name: Print the environment tag to STDOUT
+        run: echo  The tags are ${{ inputs.environment }} 
