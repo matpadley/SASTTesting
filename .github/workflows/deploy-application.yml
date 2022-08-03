@@ -1,3 +1,4 @@
+
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
@@ -11,9 +12,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
+
       - uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
@@ -31,11 +33,12 @@ jobs:
         with:
           context: .
           push: true
+
           tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_d90cea1d598b4d07a78abfd508d91620 }}/SSASTTesting:${{ github.sha }}
           file: ./Dockerfile
 
     deploy:
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       needs: build
       environment:
         name: 'production'
@@ -48,5 +51,7 @@ jobs:
           with:
             app-name: 'SastContainer'
             slot-name: 'production'
+
             publish-profile: ${{ secrets.AzureAppService_PublishProfile_53b7dc3ebc7247e0b38a144e82f86b8e }}
             images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_d90cea1d598b4d07a78abfd508d91620 }}/SSASTTesting:${{ github.sha }}'
+
