@@ -32,7 +32,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           
       - name: Install dependencies
-        run: echo ${{ github.ref }}
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ github.ref != format('refs/heads/{0}', 'develop') }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
