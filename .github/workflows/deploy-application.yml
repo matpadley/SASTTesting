@@ -37,7 +37,7 @@ jobs:
         with:
           images: ${{ env.repo_name }}/${{ env.image_name }}
           tags: 
-              type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ env.tag }}
+              type=ref,event=branch,value=${{ env.tag }}
       
       - name: Build and push Docker image
         uses: docker/build-push-action@1cb9d22b932e4832bb29793b7777ec860fc1cde0
