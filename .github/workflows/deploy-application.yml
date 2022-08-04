@@ -37,7 +37,7 @@ jobs:
         with:
           images: ${{ env.repo_name }}/${{ env.image_name }}
           tags: |
-              type=ref,event=branch
+#type=ref,event=branch
               type=semver,pattern={{inputs.tag}}
       
       - name: Build and push Docker image
@@ -49,20 +49,20 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  deploy:
-    runs-on: self-hosted
-    needs: build
-    environment:
-      name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  #deploy:
+  #  runs-on: self-hosted
+  #  needs: build
+  #  environment:
+  #    name: 'production'
+  #    url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-    steps:
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'SastContainer'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B4408A6559140A1B379C75B32FEF455 }}
-          images: 'index.docker.io/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:${{ inputs.tag }}'
+  #  steps:
+  #    - name: Deploy to Azure Web App
+  #      id: deploy-to-webapp
+  #      uses: azure/webapps-deploy@v2
+  #      with:
+  #        app-name: 'SastContainer'
+  #        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B4408A6559140A1B379C75B32FEF455 }}
+  #        images: 'index.docker.io/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:${{ inputs.tag }}'
 
 
