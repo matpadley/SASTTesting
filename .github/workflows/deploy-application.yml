@@ -48,7 +48,7 @@ jobs:
     runs-on: self-hosted
     needs: build
     environment:
-      name: '${{ env.environment }}'
+      name: ${{env.environment}}
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
