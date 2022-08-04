@@ -51,6 +51,6 @@ jobs:
         with:
           app-name: 'SastContainer'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B4408A6559140A1B379C75B32FEF455 }}
-          images: 'index.docker.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_2028A3503D9441E08BC8D9A61141ACD5 }}/sasttest:latest'
+          images: 'index.docker.io/${{ secrets.DOCKER_USERNAME }}/sasttest:latest'
 
 
