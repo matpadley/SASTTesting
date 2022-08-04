@@ -1,7 +1,7 @@
 
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
-
+#${{ github.ref != format('refs/heads/{0}', 'develop') }}
 name: Build and deploy container app to Azure Web App - SastContainer
 
 on:
@@ -42,7 +42,7 @@ jobs:
         with:
           images: ${{ env.repo_name }}/${{ env.image_name }}
           tags: 
-            type=sha,format=long,prefix={{branch}},enable=${{ github.ref != format('refs/heads/{0}', 'develop') }}
+            type=sha,format=long,prefix={{branch}},enable=false
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'develop') }}
 
       
