@@ -38,6 +38,8 @@ jobs:
           images: ${{ env.repo_name }}/${{ env.image_name }}
           tags: 
             type=sha,format=long,prefix={{branch}}-
+          labels:
+            ${{ inputs.tag }}
 
       
       - name: Build and push Docker image
