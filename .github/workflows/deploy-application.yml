@@ -42,7 +42,7 @@ jobs:
         with:
           images: ${{ env.repo_name }}/${{ env.image_name }}
           tags: 
-            type=sha,format=long,prefix={{branch}},enable=false
+            type=sha,format=long,prefix={{branch}},enable=true
             #type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'develop') }}
 
       
