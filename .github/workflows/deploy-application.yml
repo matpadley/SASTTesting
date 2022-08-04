@@ -48,7 +48,7 @@ jobs:
     runs-on: self-hosted
     needs: build
     environment:
-      name: '${{env.environment}}'
+      name: '${{ env.environment }}'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -58,6 +58,6 @@ jobs:
         with:
           app-name: 'SastContainer'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B4408A6559140A1B379C75B32FEF455 }}
-          images: 'index.docker.io/${{ secrets.DOCKER_USERNAME }}/${{env.image_name}}:${{env.tag}}'
+          images: 'index.docker.io/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:${{ env.tag }}'
 
 
