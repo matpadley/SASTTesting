@@ -55,7 +55,7 @@ jobs:
           context: ./src
           push: true
           platforms: linux/amd64
-          tags: ${{ input.tag }}
+          tags: ${{ inputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
 
   #deploy:
