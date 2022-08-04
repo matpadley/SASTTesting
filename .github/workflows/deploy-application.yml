@@ -7,6 +7,13 @@ name: Build and deploy container app to Azure Web App - SastContainer
 on:
   workflow_dispatch:
 
+env:
+  # Setting the required env flags
+  image_name: sasttest
+  repo_name: matp79
+  tag: latest
+  environment: production
+
 jobs:
   build:
     runs-on: self-hosted
@@ -24,7 +31,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a
         with:
-          images: matp79/sasttest
+          images: ${{repo_name}}/${{env.image_name}}
           tags: 
               type=raw,value=latest
       
@@ -41,7 +48,7 @@ jobs:
     runs-on: self-hosted
     needs: build
     environment:
-      name: 'production'
+      name: '${{env.environment}}'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -51,6 +58,6 @@ jobs:
         with:
           app-name: 'SastContainer'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B4408A6559140A1B379C75B32FEF455 }}
-          images: 'index.docker.io/${{ secrets.DOCKER_USERNAME }}/sasttest:latest'
+          images: 'index.docker.io/${{ secrets.DOCKER_USERNAME }}/${{env.image_name}}:${{env.tag}}'
 
 
