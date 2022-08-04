@@ -42,9 +42,9 @@ jobs:
         uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a
         with:
           images: ${{ env.repo_name }}/${{ env.image_name }}
-          tags: 
-            type=sha,format=long,prefix={{branch}},enable=false
+          tags: |
             type=raw,value=latest,enable=true
+            type=sha,format=long,prefix={{branch}},enable=false
 
       - name: tag output
         run: |
