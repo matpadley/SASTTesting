@@ -37,7 +37,7 @@ jobs:
         with:
           images: ${{ env.repo_name }}/${{ env.image_name }}
           tags: 
-              type=semver,pattern={{inputs.tag}}
+              type=semver,pattern=${{inputs.tag}}
 #type=ref,event=branch
       
       - name: Build and push Docker image
