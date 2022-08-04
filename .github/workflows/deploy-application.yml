@@ -50,8 +50,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'SastContainer'
-          slot-name: 'production'
-
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B4408A6559140A1B379C75B32FEF455 }}
           images: 'index.docker.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_2028A3503D9441E08BC8D9A61141ACD5 }}/ssasttesting:latest'
 
