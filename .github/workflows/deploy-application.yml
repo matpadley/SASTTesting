@@ -38,8 +38,6 @@ jobs:
           images: ${{ env.repo_name }}/${{ env.image_name }}
           tags: 
             type=sha,format=long,prefix={{branch}}-
-          labels:
-            ${{ inputs.tag }}
 
       
       - name: Build and push Docker image
@@ -49,7 +47,7 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ inputs.tag }}
 
   #deploy:
   #  runs-on: self-hosted
