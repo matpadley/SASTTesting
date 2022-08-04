@@ -37,7 +37,8 @@ jobs:
         with:
           images: ${{ env.repo_name }}/${{ env.image_name }}
           tags: 
-            type=sha,format=long,prefix={{branch}}-
+            type=sha,format=long,prefix={{branch}}-enable=${{ github.ref != format('refs/heads/{0}', 'develop') }}
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'develop') }}
 
       
       - name: Build and push Docker image
@@ -47,7 +48,7 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ inputs.tag }}
+          labels: ${{ steps.meta.outputs.labels }}
 
   #deploy:
   #  runs-on: self-hosted
