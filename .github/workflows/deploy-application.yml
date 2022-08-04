@@ -30,7 +30,7 @@ jobs:
       - uses: Azure/get-keyvault-secrets@v1
         with:
           keyvault: "matpinsight" # name of key vault in Azure portal
-          secrets: 'matpinsightghuser'  # comma separated list of secret keys to fetch from key vault 
+          secrets: 'matpinsightghuser,matpinsightpassword'  # comma separated list of secret keys to fetch from key vault 
         id: githubsecrets # ID for secrets that you will reference
 
       - uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
         uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
         with:
           username: ${{ steps.githubsecrets.outputs.matpinsightghuser }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          password: ${{ steps.githubsecrets.outputs.matpinsightpassword }}
           
       - name: Install dependencies
         run: |
