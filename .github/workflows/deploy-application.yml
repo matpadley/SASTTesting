@@ -6,6 +6,9 @@ name: Build and deploy container app to Azure Web App - SastContainer
 
 on:
   workflow_dispatch:
+    inputs:
+        myInput:
+          default: "my input value"
 
 env:
   # Setting the required env flags
