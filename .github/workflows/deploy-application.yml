@@ -36,16 +36,7 @@ jobs:
         uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a
         with:
           images: ${{ env.repo_name }}/${{ env.image_name }}
-          tags: | 
-            type=ref,event=branch
-            type=ref,event=pr
-            type=ref,event=tag
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
-            type=sha,prefix={{branch}}-
-            type=sha,format=long
+          tags: 
             type=sha,format=long,prefix={{branch}}-
 
       
@@ -55,7 +46,7 @@ jobs:
           context: ./src
           push: true
           platforms: linux/amd64
-          tags: ${{ inputs.tag }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
   #deploy:
