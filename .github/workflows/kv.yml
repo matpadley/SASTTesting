@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURESECRET }}
       - uses: Azure/get-keyvault-secrets@v1
         with:
           keyvault: "matpinsight" # name of key vault in Azure portal
