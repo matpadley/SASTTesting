@@ -17,13 +17,14 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/dotnet@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high --sarif-file-output=snyk.sarif
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
+      - run: snyk test
+      #- name: Run Snyk to check for vulnerabilities
+      #  uses: snyk/actions/dotnet@master
+      #  env:
+      #    SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #  with:
+      #- name: Upload result to GitHub Code Scanning
+      #    args: --severity-threshold=high --sarif-file-output=snyk.sarif
+      #  uses: github/codeql-action/upload-sarif@v2
+      #  with:
+      #    sarif_file: snyk.sarif
