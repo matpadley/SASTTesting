@@ -13,7 +13,7 @@ defaults:
     working-directory: src
 
 jobs:  
-  security:
+  setup:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@master
@@ -24,21 +24,16 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - run: snyk auth ${{ secrets.SNYK_TOKEN }}
-      - run: snyk code test --all-projects --sarif-file-output=../snyk.sarif
+  run_tests:
+    needs: [setup]
+    runs-on: self-hosted
+    steps:
+      - run: snyk test --all-projects --sarif-file-output=../snyk.sarif
+        continue-on-error: true 
+  upload_results:
+    needs: [run_tests]
+    runs-on: self-hosted
       - name: Upload result to GitHub Code Scanning
-        if: always()
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
-
-
-      #- name: Run Snyk to check for vulnerabilities
-      #  uses: snyk/actions/dotnet@master
-      #  env:
-      #    SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      #  with:
-      #- name: Upload result to GitHub Code Scanning
-      #    args: --severity-threshold=high --sarif-file-output=snyk.sarif
-      #  uses: github/codeql-action/upload-sarif@v2
-      #  with:
-      #    sarif_file: snyk.sarif
