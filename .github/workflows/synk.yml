@@ -23,7 +23,8 @@ jobs:
           dotnet-version: 6.0.x
       - name: Restore dependencies
         run: dotnet restore
-      - run: snyk auth ${{ secrets.SNYK_TOKEN }}
+      - name: Snyk Auth
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
   run_tests:
     needs: [setup]
     runs-on: self-hosted
