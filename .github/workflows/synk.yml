@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: snyk auth ${{ secrets.SNYK_TOKEN }}
-      - run: snyk test
+      - run: snyk test --file=TestApp.sln
       #- name: Run Snyk to check for vulnerabilities
       #  uses: snyk/actions/dotnet@master
       #  env:
