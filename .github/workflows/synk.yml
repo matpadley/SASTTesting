@@ -13,16 +13,16 @@ defaults:
     working-directory: src
 
 jobs:  
-  build_application:
-    name: Build Application
-    uses: ./.github/workflows/build.yml
-    with:
-      dotnet_core_version: 6.0.x
-      config: release
   security:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@master
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
       - run: snyk auth ${{ secrets.SNYK_TOKEN }}
       - run: snyk test --file=TestApp.sln
       #- name: Run Snyk to check for vulnerabilities
