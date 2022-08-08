@@ -24,7 +24,14 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - run: snyk auth ${{ secrets.SNYK_TOKEN }}
-      - run: snyk test --file=TestApp.sln
+      - run: snyk test --file=TestApp.sln --all-projects --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+          args: --severity-threshold=high --sarif-file-output=snyk.sarif
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
+
+
       #- name: Run Snyk to check for vulnerabilities
       #  uses: snyk/actions/dotnet@master
       #  env:
