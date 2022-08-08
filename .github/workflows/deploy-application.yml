@@ -1,9 +1,4 @@
-
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-#${{ github.ref != format('refs/heads/{0}', 'develop') }}
-#
-name: Build and deploy container app to Azure Web App - SastContainer
+name: Build and deploy container app to Azure Web App
 
 on:
   workflow_dispatch:
@@ -58,7 +53,6 @@ jobs:
         run: |
           echo ${{ steps.meta.outputs.tags }}
 
-      
       - name: Build and push Docker image
         uses: docker/build-push-action@c84f38281176d4c9cdb1626ffafcd6b3911b5d94
         with:
@@ -67,21 +61,3 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-  #deploy:
-  #  runs-on: self-hosted
-  #  needs: build
-  #  environment:
-  #    name: 'production'
-  #    url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-  #  steps:
-  #    - name: Deploy to Azure Web App
-  #      id: deploy-to-webapp
-  #      uses: azure/webapps-deploy@v2
-  #      with:
-  #        app-name: 'SastContainer'
-  #        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2B4408A6559140A1B379C75B32FEF455 }}
-  #        images: 'index.docker.io/${{ steps.githubsecrets.outputs.matpinsightghuser }}/${{ env.image_name }}:${{ inputs.tag }}'
-
-
