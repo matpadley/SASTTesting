@@ -29,7 +29,13 @@ jobs:
     needs: [setup]
     runs-on: self-hosted
     steps:
-      - run: snyk test --all-projects --sarif-file-output=../snyk.sarif
+      - run: snyk code test --all-projects --sarif-file-output=../snyk.sarif
+        continue-on-error: true 
+  test_container:
+    needs: [setup]
+    runs-on: self-hosted
+    steps:
+      - run: snyk container test
         continue-on-error: true 
   upload_results:
     needs: [run_tests]
