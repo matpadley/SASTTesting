@@ -13,21 +13,18 @@ defaults:
     working-directory: src
 
 jobs:
-  build_application:
-    name: Build Application
-    uses: ./.github/workflows/build.yml
-    with:
-      dotnet_core_version: 6.0.x
-      config: release
-  
-  test_application:
-    name: Test Application
+  setup-environment:
+    name: Setup
     runs-on: self-hosted
-    needs: [build_application]
     steps:
-      - name: Download Artifacts From Build
-        uses: actions/download-artifact@v3
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
         with:
-          name: artifacts
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore --configuration release
       - name: Test
-        run: dotnet test *.Tests --no-build --verbosity normal --configuration release
+        run: dotnet test *.Tests --no-build --verbosity normal 
