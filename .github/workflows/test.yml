@@ -1,4 +1,4 @@
-name: Build and Test Application
+name: Build and Test
 
 on:
   push:
@@ -13,18 +13,19 @@ defaults:
     working-directory: src
 
 jobs:
-  setup-environment:
-    name: Setup
+  build:
+
     runs-on: self-hosted
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: 6.0.x
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --no-restore --configuration release
-      - name: Test
-        run: dotnet test --no-build --verbosity normal 
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
