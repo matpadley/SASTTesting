@@ -35,7 +35,7 @@ jobs:
     needs: [setup]
     runs-on: self-hosted
     steps:
-      - run: snyk container test --file=Dockerfile
+      - run: snyk container test --file=./src/Dockerfile
         
   upload_scan_results:
     needs: [run_tests]
