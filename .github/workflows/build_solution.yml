@@ -4,6 +4,9 @@ on:
   push:
     branches: 
       [ "feature/*", "bugfix/*", "hotfix/*" ]
+  #pull_request:
+  #  branches:
+  #    [ "develop" ]
 
 env:
   configuration: Release
