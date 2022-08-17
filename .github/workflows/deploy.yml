@@ -56,3 +56,5 @@ jobs:
     name: Package Application
     if: github.event.pull_request.merged == true
     runs-on: self-hosted
+    steps: 
+      - run: echo "package"
