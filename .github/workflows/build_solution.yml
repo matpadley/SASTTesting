@@ -1,5 +1,7 @@
 name: Build and Test Application
 
+# Split this apart to build and test, and use workflow
+
 on:
   push:
     branches: 

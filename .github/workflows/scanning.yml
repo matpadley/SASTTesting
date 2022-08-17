@@ -1,0 +1,44 @@
+name: Security Scan Application
+
+on:
+  pull_request:
+    branches: ["develop"]
+    types:
+      - closed
+
+jobs:
+  environment_setup:
+    if: github.event.pull_request.merged == true
+    name: Setup Scanning Envrionment
+    steps:
+      - run: echo 'SETUP'
+  # image vulnerability scanning
+  image_vuln_scanning:
+    needs: [environment_setup]
+    steps:
+      - run: echo 'image_vuln_scanning'
+  # library vulnerability scanning
+  library_vuln_scanning:
+    needs: [environment_setup]
+    steps:
+      - run: echo 'library_vuln_scanning'
+  # license scanning
+  license_vuln_scanning:
+    needs: [environment_setup]
+    steps:
+      - run: echo 'license_vuln_scanning'
+  # container config scanning
+  container_vuln_scanning:
+    needs: [environment_setup]
+    steps:
+      - run: echo 'container_vuln_scanning'
+  # code style
+  code_style:
+    needs: [environment_setup]
+    steps:
+      - run: echo 'code_style'
+  # static analysis
+  static_analysis:
+    needs: [environment_setup]
+    steps:
+      - run: echo 'static analysis'

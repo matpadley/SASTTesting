@@ -1,14 +1,62 @@
 name: Deploy Application
 
+# needs the scanning workflow to have succeeded
+
 on:
   pull_request:
     branches: ["develop"]
     types:
       - closed
   workflow_dispatch:
-    branches: ["test"]
+    branches: [ "test" ]
+
+env:
+  key_vault: matpinsight
+  image_name: sasttest
+  repo_name: matp79
 
 jobs:
-  if_merged:
+  push_to_docker:
+    name: Push To Docker Application
     if: github.event.pull_request.merged == true
+    runs-on: self-hosted
     steps:
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURESECRET }}
+      - uses: Azure/get-keyvault-secrets@v1
+        with:
+          keyvault: ${{ env.key_vault }} # name of key vault in Azure portal
+          secrets: 'matpinsightghuser,matpinsightpassword'  # comma separated list of secret keys to fetch from key vault 
+        id: githubsecrets # ID for secrets that you will reference
+
+      - uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
+        with:
+          username: ${{ steps.githubsecrets.outputs.matpinsightghuser }}
+          password: ${{ steps.githubsecrets.outputs.matpinsightpassword }}
+          
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a
+        with:
+          images: ${{ env.repo_name }}/${{ env.image_name }}
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'develop') }}
+            type=sha,format=long,prefix={{branch}},enable=${{ github.ref != format('refs/heads/{0}', 'develop') }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@c84f38281176d4c9cdb1626ffafcd6b3911b5d94
+        with:
+          context: ./src
+          push: true
+          platforms: linux/amd64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+  package_application:
+    name: Package Application
+    if: github.event.pull_request.merged == true
+    runs-on: self-hosted
+    steps: 
+      - run: echo "package"
