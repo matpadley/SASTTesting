@@ -38,7 +38,7 @@ jobs:
     steps:
       - run: echo 'code_style'
   # static analysis
-  code_style:
+  static_analysis:
     needs: [environment_setup]
     steps:
       - run: echo 'static analysis'
