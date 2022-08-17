@@ -8,6 +8,7 @@ on:
 env:
   configuration: Release
   dotnet_core_version: 6.0.x
+  node_version: 14
 
 defaults:
   run:
@@ -41,10 +42,17 @@ jobs:
     runs-on: self-hosted
     needs: [checkout_code]
     steps:
-      # needs caching setting up
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node_version }}
+          # always-auth: true
+          # registry-url: registry-url-here
+      - run: echo 
       - name: Install Dependencies
         working-directory: src/TestApp/ClientApp
-        run: npm install
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
       - name: Build Application
         working-directory: src/TestApp/ClientApp
         run: npm run build
