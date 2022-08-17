@@ -5,6 +5,7 @@ on:
     branches: ["develop"]
     types:
       - closed
+  workflow_dispatch:
 
 jobs:
   environment_setup:
