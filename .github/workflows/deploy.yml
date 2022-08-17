@@ -8,7 +8,7 @@ on:
     types:
       - closed
   workflow_dispatch:
-    branches: ["test"]
+    branches: [ "test" ]
 
 env:
   key_vault: matpinsight
