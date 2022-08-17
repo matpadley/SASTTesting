@@ -1,0 +1,14 @@
+name: Deploy Application
+
+on:
+  pull_request:
+    branches: ["develop"]
+    types:
+      - closed
+  workflow_dispatch:
+    branches: ["test"]
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    steps:
