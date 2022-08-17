@@ -4,6 +4,8 @@ on:
   push:
     branches: 
       [ "develop", "test" ]
+  schedule:
+    - cron: '00 00 * * *
 
 jobs:
   environment_setup:
