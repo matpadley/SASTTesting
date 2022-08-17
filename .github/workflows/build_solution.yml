@@ -1,0 +1,63 @@
+name: Build and Test Application
+
+on:
+  push:
+    branches: 
+      [ "feature/*", "bugfix/*", "hotfix/*" ]
+  pull_request:
+    branches:
+      [ "develop" ]
+
+env:
+  configuration: Release
+  dotnet_core_version: 6.0.x
+  node_version: 14
+
+defaults:
+  run:
+    working-directory: src
+
+jobs:
+  environment_setup:
+    name: Checkout Source
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node_version }}
+          # always-auth: true
+          # registry-url: registry-url-here
+  
+  build_dotnet_app:
+    name: Build and Test .NET Core Application
+    runs-on: self-hosted
+    needs: [environment_setup]
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.dotnet_core_version }}
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore -c ${{ env.configuration }}
+      - name: Test
+        run: dotnet test . --no-build --verbosity normal --collect "Code Coverage" --logger:"trx;LogFilePrefix=testResults"
+
+  build_javascript:
+    name: Build and Test Javascript Application
+    runs-on: self-hosted
+    needs: [environment_setup]
+    steps:
+      - name: Install Dependencies
+        working-directory: src/TestApp/ClientApp
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+      - name: Build Application
+        working-directory: src/TestApp/ClientApp
+        run: npm run build
+      - name: Run Tests
+        working-directory: src/TestApp/ClientApp
+        run: npm test
