@@ -4,9 +4,9 @@ on:
   push:
     branches: 
       [ "feature/*", "bugfix/*", "hotfix/*" ]
-  #pull_request:
-  #  branches:
-  #    [ "develop" ]
+  pull_request:
+    branches:
+      [ "develop" ]
 
 env:
   configuration: Release
@@ -18,16 +18,22 @@ defaults:
     working-directory: src
 
 jobs:
-  checkout_code:
+  environment_setup:
     name: Checkout Source
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node_version }}
+          # always-auth: true
+          # registry-url: registry-url-here
+  
 
   build_dotnet_app:
     name: Build and Test .NET Core Application
     runs-on: self-hosted
-    needs: [checkout_code]
+    needs: [environment_setup]
     steps:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
@@ -43,14 +49,8 @@ jobs:
   build_javascript:
     name: Build and Test Javascript Application
     runs-on: self-hosted
-    needs: [checkout_code]
+    needs: [environment_setup]
     steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.node_version }}
-          # always-auth: true
-          # registry-url: registry-url-here
-      - run: echo 
       - name: Install Dependencies
         working-directory: src/TestApp/ClientApp
         run: npm ci
