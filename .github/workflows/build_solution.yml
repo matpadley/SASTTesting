@@ -29,7 +29,6 @@ jobs:
           # always-auth: true
           # registry-url: registry-url-here
   
-
   build_dotnet_app:
     name: Build and Test .NET Core Application
     runs-on: self-hosted
