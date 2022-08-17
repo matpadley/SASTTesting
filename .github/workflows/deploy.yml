@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     branches: ["test"]
 
-jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
-    steps:
+#jobs:
+#  if_merged:
+#    if: github.event.pull_request.merged == true
+#    steps:
