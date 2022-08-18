@@ -45,14 +45,14 @@ jobs:
       - name: Build
         run: dotnet build --no-restore -c ${{ env.configuration }}
       - name: Test
-        run: dotnet test . --no-build --verbosity normal --collect "Code Coverage" --logger:"trx;LogFilePrefix=testResults"
-      - name: use this action, test solution dir
-        uses: zyborg/dotnet-tests-report@v1
+        run: dotnet test . --no-build --verbosity normal --collect "Code Coverage" --logger trx
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
         with:
-          project_path: tests/My.Project.Tests
-          report_name: my_project_tests
-          report_title: My Project Tests
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          name: .NET Core Application 
+          path: ./**/TestResults/*.trx
+          reporter: dotnet-trx 
 
   build_javascript:
     name: Build and Test Javascript Application
