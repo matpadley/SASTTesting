@@ -12,9 +12,10 @@ env:
 jobs:
   testing:
     name: Deploy To Testing
-    environment: testing
+    environment: 
+      name: testing
+      url: ${{ steps.deploy-to-testing.outputs.webapp-url }}
     runs-on: self-hosted
-    url: ${{ steps.deploy-to-testing.outputs.webapp-url }}
     steps:
       - name: Deploy Application
         id: deploy-to-testing
