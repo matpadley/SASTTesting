@@ -15,7 +15,6 @@ env:
 jobs:
   testing:
     name: Deploy To Testing
-    needs: develop
     environment: 
       name: testing
       url: ${{ steps.deploy-to-testing.outputs.webapp-url }}
