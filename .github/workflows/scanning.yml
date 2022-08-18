@@ -1,16 +1,16 @@
 name: Security Scan Application
 
 on:
+  push:
+    branches: 
+      [ "feature/*", "bugfix/*", "hotfix/*" ]
   pull_request:
-    branches: ["develop"]
-    types:
-      - closed
-  workflow_dispatch:
+    branches:
+      [ "develop" ]
 
 jobs:
   environment_setup:
     runs-on: self-hosted
-    if: github.event.pull_request.merged == 'true'
     name: Setup Scanning Envrionment
     steps:
       - run: echo 'SETUP'
