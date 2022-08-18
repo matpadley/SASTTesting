@@ -2,11 +2,6 @@ name: Deploy Pipeline
 
 on:
   workflow_dispatch:
-    branches:
-      - develop
-  pull_request:
-    branches:
-      [ "develop" ]
 
 env:
   image_name: sasttest
@@ -15,7 +10,6 @@ env:
 jobs:
   testing:
     name: Deploy To Testing
-    needs: develop
     environment: 
       name: testing
       url: ${{ steps.deploy-to-testing.outputs.webapp-url }}
@@ -25,7 +19,7 @@ jobs:
         id: deploy-to-testing
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'SastContainer'
+          app-name: 'SastTestContainer'
           publish-profile: ${{ secrets.PUBLISH_PROFILE }}
           images: 'index.docker.io/${{ env.repo_name }}/${{ env.image_name }}:latest'
 #  uat:
