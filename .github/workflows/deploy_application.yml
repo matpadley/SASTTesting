@@ -1,0 +1,35 @@
+name: Deploy Application
+
+on:
+  workflow_dispatch:
+    branches:
+      - develop
+
+env:
+  image_name: sasttest
+  repo_name: matp79
+
+jobs:
+  testing:
+    name: Deploy To Testing
+    environment: testing
+    runs-on: self-hosted
+    url: ${{ steps.deploy-to-testing.outputs.webapp-url }}
+    steps:
+      - name: Deploy Application
+        id: deploy-to-testing
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'SastContainer'
+          publish-profile: ${{ secrets.PUBLISH_PROFILE }}
+          images: 'index.docker.io/${{ env.repo_name }}/${{ env.image_name }}:latest'
+#  uat:
+#    needs: testing
+#    name: Deploy To UAT
+#    environment: uat
+#    runs-on: self-hosted
+#  production:
+#    needs: uat
+#    name: Deploy To Production
+#    environment: production
+#    runs-on: self-hosted
