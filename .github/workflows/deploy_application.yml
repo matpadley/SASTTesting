@@ -3,7 +3,7 @@ name: Deploy Application
 on:
   workflow_dispatch:
     branches:
-    - develop
+      - develop
 
 env:
   image_name: sasttest
