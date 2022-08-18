@@ -50,6 +50,23 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          
+    deploy_to_develop:
+      name: Deploy To Develop
+      if: github.event.pull_request.merged == true
+      environment: 
+        name: develop
+        url: ${{ steps.deploy-to-develop.outputs.webapp-url }}
+      runs-on: self-hosted
+      needs: push_to_docker
+      steps:
+        - name: Deploy Application
+          id: deploy-to-develop
+          uses: azure/webapps-deploy@v2
+          with:
+            app-name: 'SastContainer'
+            publish-profile: ${{ secrets.PUBLISH_PROFILE }}
+            images: 'index.docker.io/${{ env.repo_name }}/${{ env.image_name }}:latest'
 
   #package_application:
   #  name: Package Application
