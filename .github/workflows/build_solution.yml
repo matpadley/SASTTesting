@@ -30,11 +30,25 @@ jobs:
           node-version: ${{ env.node_version }}
           # always-auth: true
           # registry-url: registry-url-here
-  
+
+  code_scanning:
+    name: SAST and Code Style
+    needs: [environment_setup]
+    runs-on: self-hosted
+    steps:
+      - name: SAST
+        run: echo 'SAST Tool'
+      - name: Code Style
+        run: echo 'Code Style Tool'
+      - name: License Scanning
+        run: echo 'License Scanning Tool'
+      - name: Library Scanning
+        run: echo 'Library Scanning Tool'
+
   build_dotnet_app:
     name: Build and Test .NET Core Application
     runs-on: self-hosted
-    needs: [environment_setup]
+    needs: [code_scanning]
     steps:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
@@ -57,7 +71,7 @@ jobs:
   build_javascript:
     name: Build and Test Javascript Application
     runs-on: self-hosted
-    needs: [environment_setup]
+    needs: [code_scanning]
     steps:
       - name: Install Dependencies
         working-directory: src/TestApp/ClientApp
