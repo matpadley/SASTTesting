@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 env:
+  key_vault: matpinsight
   image_name: sasttest
   repo_name: matp79
 
@@ -15,15 +16,31 @@ jobs:
       url: ${{ steps.deploy-to-testing.outputs.webapp-url }}
     runs-on: self-hosted
     steps:
-      - name: Tag Container Accordingly 
-        run: echo 'Tag Container Accordingly'
-      - name: Deploy Application
-        id: deploy-to-testing
-        uses: azure/webapps-deploy@v2
+      - uses: Azure/login@v1
         with:
-          app-name: 'SastTestContainer'
-          publish-profile: ${{ secrets.PUBLISH_PROFILE }}
-          images: 'index.docker.io/${{ env.repo_name }}/${{ env.image_name }}:latest'
+          creds: ${{ secrets.AZURESECRET }}
+      - uses: Azure/get-keyvault-secrets@v1
+        with:
+          keyvault: ${{ env.key_vault }} # name of key vault in Azure portal
+          secrets: 'matpinsightghuser,matpinsightpassword'  # comma separated list of secret keys to fetch from key vault 
+        id: githubsecrets # ID for secrets that you will reference
+
+      - uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
+        with:
+          username: ${{ steps.githubsecrets.outputs.matpinsightghuser }}
+          password: ${{ steps.githubsecrets.outputs.matpinsightpassword }}
+      - name: Tag as In Test
+        run: docker tag -t ${{ env.repo_name }}/${{ env.image_name }}:unstable ${{ env.repo_name }}/${{ env.image_name }}:intest 
+      #- name: Deploy Application  
+      #  id: deploy-to-testing
+      #  uses: azure/webapps-deploy@v2
+      #  with:
+      #    app-name: 'SastTestContainer'
+      #    publish-profile: ${{ secrets.PUBLISH_PROFILE }}
+      #    images: 'index.docker.io/${{ env.repo_name }}/${{ env.image_name }}:unstable'
+
 #  uat:
 #    needs: testing
 #    name: Deploy To UAT
