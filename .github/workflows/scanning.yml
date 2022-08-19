@@ -8,6 +8,10 @@ on:
     branches:
       [ "develop" ]
 
+env:
+  image_name: sasttest
+  repo_name: matp79
+
 jobs:
   environment_setup:
     runs-on: self-hosted
@@ -16,8 +20,8 @@ jobs:
       - run: echo 'SETUP'
       - run: echo 'image_vuln_scanning'
       - run: echo 'library_vuln_scanning'
-      - run: echo 'license_vuln_scanning'
+      #- run: echo 'license_vuln_scanning'
       - run: echo 'container_vuln_scanning'
-      - run: echo 'code_style'
-      - run: echo 'static analysis'
+      #- run: echo 'code_style'
+      #- run: echo 'static analysis'
       - run: echo 'on fail raise Jira ticket'

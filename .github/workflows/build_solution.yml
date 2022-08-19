@@ -31,10 +31,20 @@ jobs:
           # always-auth: true
           # registry-url: registry-url-here
 
+  code_scanning:
+    name: SAST and Code Style
+    needs: [environment_setup]
+    runs-on: self-hosted
+    steps:
+      - name: SAST
+      - name: Code Style
+      - name: License Scanning
+      - name: Library Scanning
+
   build_dotnet_app:
     name: Build and Test .NET Core Application
     runs-on: self-hosted
-    needs: [environment_setup]
+    needs: [code_scanning]
     steps:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
@@ -53,12 +63,11 @@ jobs:
           queries: security-extended,security-and-quality
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
-  
 
   build_javascript:
     name: Build and Test Javascript Application
     runs-on: self-hosted
-    needs: [environment_setup]
+    needs: [code_scanning]
     steps:
       - name: Install Dependencies
         working-directory: src/TestApp/ClientApp
