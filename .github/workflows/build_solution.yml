@@ -31,6 +31,7 @@ jobs:
           # always-auth: true
           # registry-url: registry-url-here
       - name: Install ESLint
+        working-directory: src/TestApp/ClientApp
         run: |
           npm install eslint@8.10.0
           npm install @microsoft/eslint-formatter-sarif@2.1.7
