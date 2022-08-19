@@ -35,6 +35,7 @@ jobs:
     name: Code Scanning
     runs-on: self-hosted
     needs: [environment_setup]
+    if: ${{ github.event.pull_request }}
     steps:
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v2
