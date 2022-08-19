@@ -38,6 +38,9 @@ jobs:
     steps:
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v2
+        with:
+          fail-on-severity: critical
+          base-ref: ${{ github.event.pull_request.base.ref }}
   
   build_dotnet_app:
     name: Build and Test .NET Core Application
