@@ -45,8 +45,9 @@ jobs:
             type=raw,value=unstable,enable=${{ github.ref == format('refs/heads/{0}', 'develop') }}
 
       - name: Show Tags
-        run: echo ${{ steps.meta.outputs.tags }}
-        run: echo ${{ github.ref }}
+        run: | 
+          echo ${{ steps.meta.outputs.tags }}
+          echo ${{ github.ref }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@c84f38281176d4c9cdb1626ffafcd6b3911b5d94
