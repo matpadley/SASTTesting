@@ -13,39 +13,39 @@ permissions:
   pull-requests: read 
 
 jobs:
-  environment_setup:
-    if: github.event.pull_request.merged == true
-    name: Setup Scanning Envrionment
-    steps:
-      - run: echo 'SETUP'
+  #environment_setup:
+  #  if: github.event.pull_request.merged == true
+  #  name: Setup Scanning Envrionment
+  #  steps:
+  #    - run: echo 'SETUP'
   # image vulnerability scanning
-  image_vuln_scanning:
-    needs: [environment_setup]
-    steps:
-      - run: echo 'image_vuln_scanning'
+  #image_vuln_scanning:
+  #  needs: [environment_setup]
+  #  steps:
+  #    - run: echo 'image_vuln_scanning'
   # library vulnerability scanning
-  library_vuln_scanning:
-    needs: [environment_setup]
-    steps:
-      - run: echo 'library_vuln_scanning'
+  #library_vuln_scanning:
+  #  needs: [environment_setup]
+  #  steps:
+  #    - run: echo 'library_vuln_scanning'
   # license scanning
-  license_vuln_scanning:
-    needs: [environment_setup]
-    steps:
-      - run: echo 'license_vuln_scanning'
+  #license_vuln_scanning:
+  #  needs: [environment_setup]
+  #  steps:
+  #    - run: echo 'license_vuln_scanning'
   # container config scanning
-  container_vuln_scanning:
-    needs: [environment_setup]
-    steps:
-      - run: echo 'container_vuln_scanning'
+  #container_vuln_scanning:
+  #  needs: [environment_setup]
+  #  steps:
+  #    - run: echo 'container_vuln_scanning'
   # code style
-  code_style:
-    needs: [environment_setup]
-    steps:
-      - run: echo 'code_style'
+  #code_style:
+  #  needs: [environment_setup]
+  #  steps:
+  #    - run: echo 'code_style'
   # static analysis
   static_analysis:
-    needs: [environment_setup]
+    #needs: [environment_setup]
     runs-on: self-hosted
     steps:
       - uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
