@@ -60,13 +60,6 @@ jobs:
         run: dotnet build --no-restore -c ${{ env.configuration }}
       - name: Test
         run: dotnet test . --no-build --verbosity normal --collect "Code Coverage" --logger:"trx;LogFilePrefix=testResults"
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: 'csharp' 
-          queries: security-extended,security-and-quality
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
 
   build_javascript:
     name: Build and Test Javascript Application
