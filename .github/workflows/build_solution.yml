@@ -49,10 +49,9 @@ jobs:
           --output-file eslint-results.sarif
         continue-on-error: true
       - name: Upload analysis results to GitHub
-        working-directory: src/TestApp/ClientApp
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: eslint-results.sarif
+          sarif_file: ./src/TestApp/ClientAppeslint-results.sarif
           wait-for-processing: true
   
   build_dotnet_app:
