@@ -16,7 +16,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Tag Container Accordingly 
-        run: echo 'Tag Container Accordingly '
+        run: echo 'Tag Container Accordingly'
       - name: Deploy Application
         id: deploy-to-testing
         uses: azure/webapps-deploy@v2

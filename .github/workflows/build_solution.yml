@@ -37,9 +37,13 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: SAST
+        run: echo 'SAST Tool'
       - name: Code Style
+        run: echo 'Code Style Tool'
       - name: License Scanning
+        run: echo 'License Scanning Tool'
       - name: Library Scanning
+        run: echo 'Library Scanning Tool'
 
   build_dotnet_app:
     name: Build and Test .NET Core Application
