@@ -30,27 +30,7 @@ jobs:
           node-version: ${{ env.node_version }}
           # always-auth: true
           # registry-url: registry-url-here
-      - name: Install ESLint
-        working-directory: src/TestApp/ClientApp
-        run: |
-          npm install eslint@8.10.0
-          npm install @microsoft/eslint-formatter-sarif@2.1.7
 
-  scanning:
-    name: Code Scanning
-    runs-on: self-hosted
-    needs: [environment_setup]
-    steps:
-      - name: Run ESLint
-        working-directory: src/TestApp/ClientApp
-        run: npx eslint . --ext .js,.jsx,.ts,.tsx --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif
-        continue-on-error: true
-      - name: Upload analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: ./src/TestApp/ClientApp/eslint-results.sarif
-          wait-for-processing: true
-  
   build_dotnet_app:
     name: Build and Test .NET Core Application
     runs-on: self-hosted
@@ -66,6 +46,14 @@ jobs:
         run: dotnet build --no-restore -c ${{ env.configuration }}
       - name: Test
         run: dotnet test . --no-build --verbosity normal --collect "Code Coverage" --logger:"trx;LogFilePrefix=testResults"
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: [ 'csharp' ]
+          queries: security-extended,security-and-quality
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+  
 
   build_javascript:
     name: Build and Test Javascript Application
