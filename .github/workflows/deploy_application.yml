@@ -31,8 +31,10 @@ jobs:
         with:
           username: ${{ steps.githubsecrets.outputs.matpinsightghuser }}
           password: ${{ steps.githubsecrets.outputs.matpinsightpassword }}
-      - name: Tag as In Test
-        run: docker tag -t ${{ env.repo_name }}/${{ env.image_name }}:unstable ${{ env.repo_name }}/${{ env.image_name }}:intest 
+      - name: Tag For Testing
+        run: |
+          docker tag ${{ env.repo_name }}/${{ env.image_name }}:unstable ${{ env.repo_name }}/${{ env.image_name }}:test
+          docker push ${{ env.repo_name }}/${{ env.image_name }}:test
       #- name: Deploy Application  
       #  id: deploy-to-testing
       #  uses: azure/webapps-deploy@v2
