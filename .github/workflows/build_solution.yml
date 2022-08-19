@@ -59,7 +59,14 @@ jobs:
       - name: Build
         run: dotnet build --no-restore -c ${{ env.configuration }}
       - name: Test
-        run: dotnet test . --no-build --verbosity normal --collect "Code Coverage" --logger:"trx;LogFilePrefix=testResults"
+        run: dotnet test . --no-build --verbosity normal --collect "Code Coverage" --logger trx
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: .NET Core Application 
+          path: ./**/TestResults/*.trx
+          reporter: dotnet-trx 
 
   build_javascript:
     name: Build and Test Javascript Application
