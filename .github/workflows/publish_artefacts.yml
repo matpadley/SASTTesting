@@ -41,8 +41,8 @@ jobs:
         with:
           images: ${{ env.repo_name }}/${{ env.image_name }}
           tags: |
-            type=sha,enable=${{ github.ref == format('refs/heads/{0}', 'develop') }}
-            type=raw,value=unstable,enable=${{ github.ref == format('refs/heads/{0}', 'develop') }}
+            type=sha,enable=${{ github.ref == 'develop') }}
+            type=raw,value=unstable,enable=${{ github.ref == 'develop') }}
 
       - name: Show Tags
         run: | 
