@@ -34,7 +34,7 @@ jobs:
   build_dotnet_app:
     name: Build and Test .NET Core Application
     runs-on: self-hosted
-    needs: [scanning]
+    needs: [environment_setup]
     steps:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
@@ -58,7 +58,7 @@ jobs:
   build_javascript:
     name: Build and Test Javascript Application
     runs-on: self-hosted
-    needs: [scanning]
+    needs: [environment_setup]
     steps:
       - name: Install Dependencies
         working-directory: src/TestApp/ClientApp
