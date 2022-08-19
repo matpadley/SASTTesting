@@ -354,3 +354,5 @@ MigrationBackup/
 *terraform/.terraform/*
 
 azuresetup.txt
+
+packages.lock.json
