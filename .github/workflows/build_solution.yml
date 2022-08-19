@@ -30,6 +30,14 @@ jobs:
           node-version: ${{ env.node_version }}
           # always-auth: true
           # registry-url: registry-url-here
+
+  scanning:
+    name: Code Scanning
+    runs-on: self-hosted
+    needs: [environment_setup]
+    steps:
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v2
   
   build_dotnet_app:
     name: Build and Test .NET Core Application
