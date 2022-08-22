@@ -1,7 +1,8 @@
 name: Deploy Pipeline
 
 on:
-  workflow_dispatch:
+  release:
+    published
 
 env:
   key_vault: matpinsight
@@ -31,18 +32,17 @@ jobs:
         with:
           username: ${{ steps.githubsecrets.outputs.matpinsightghuser }}
           password: ${{ steps.githubsecrets.outputs.matpinsightpassword }}
-
       - name: Tag For Testing
         run: |
           docker tag ${{ env.repo_name }}/${{ env.image_name }}:unstable ${{ env.repo_name }}/${{ env.image_name }}:test
           docker push ${{ env.repo_name }}/${{ env.image_name }}:test
-      #- name: Deploy Application  
-      #  id: deploy-to-testing
-      #  uses: azure/webapps-deploy@v2
-      #  with:
-      #    app-name: 'SastTestContainer'
-      #    publish-profile: ${{ secrets.PUBLISH_PROFILE }}
-      #    images: 'index.docker.io/${{ env.repo_name }}/${{ env.image_name }}:unstable'
+      - name: Deploy Application  
+        id: deploy-to-testing
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'SastTestContainer'
+          publish-profile: ${{ secrets.PUBLISH_PROFILE }}
+          images: 'index.docker.io/${{ env.repo_name }}/${{ env.image_name }}:test'
 
 #  uat:
 #    needs: testing
