@@ -2,7 +2,7 @@ name: Deploy Pipeline
 
 on:
   release:
-    types: [published]
+    types: [created]
 
 env:
   key_vault: matpinsight
