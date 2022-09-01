@@ -68,4 +68,4 @@ jobs:
         with:
           app-name: 'SastContainer'
           publish-profile: ${{ secrets.PUBLISH_PROFILE }}
-          images: 'index.docker.io/${{ env.repo_name }}/${{ env.image_name }}:${{ steps.meta.outputs.tags }}'
+          images: 'index.docker.io/${{ env.repo_name }}/${{ env.image_name }}:unstable'
