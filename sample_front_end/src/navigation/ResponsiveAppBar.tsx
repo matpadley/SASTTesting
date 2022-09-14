@@ -20,6 +20,11 @@ const mainConatiner = {
   padding: "10px",
 };
 
+const logoStyle = {
+  width: "5%",
+  padding: "0 10px 0 0",
+};
+
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -44,7 +49,7 @@ const ResponsiveAppBar = () => {
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <img src={logo} alt="Insight Investment" />
+            <img src={logo} style={logoStyle} alt="Insight Investment" />
             <Typography
               variant="h5"
               noWrap
@@ -94,25 +99,6 @@ const ResponsiveAppBar = () => {
                 ))}
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Insight Architecture Sample Application
-            </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
@@ -124,34 +110,6 @@ const ResponsiveAppBar = () => {
                   {page}
                 </Button>
               ))}
-            </Box>
-
-            <Box sx={{ flexGrow: 0 }}>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography variant="h6" textAlign="center">
-                      {setting}
-                    </Typography>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
             </Box>
           </Toolbar>
         </Container>
