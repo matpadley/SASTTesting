@@ -51,7 +51,7 @@ jobs:
     needs: [code_scanning]
     steps:
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.dotnet_core_version }}
       - name: Restore dependencies
